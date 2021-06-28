@@ -27,5 +27,6 @@ public class Tweet {
         for(int i = 0; i < jsonArray.length(); i ++){
             tweets.add(fromJson(jsonArray.getJSONObject(i)));
         }
+        return tweets;
     }
 }
