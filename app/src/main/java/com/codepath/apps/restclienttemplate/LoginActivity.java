@@ -47,6 +47,7 @@ public class  LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 	public void onLoginSuccess() {
 		Log.i("shelly", "login sucessful");
 		//go to timeline activity
+		//run the intent in LoginActivity to navigate to the TimelineActivity,
 		Intent i = new Intent(this, TimelineActivity.class);
 		startActivity(i);
 	}
