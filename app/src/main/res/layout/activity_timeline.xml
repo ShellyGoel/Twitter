@@ -13,14 +13,13 @@
         android:layout_height="match_parent"
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
-        android:backgroundTint="@color/design_default_color_background"
-        android:backgroundTintMode="add" />
+        android:backgroundTint="#C1B33C" />
 
     <Button
         android:id="@+id/logoutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="320dp"
+        android:layout_marginStart="330dp"
         android:backgroundTint="#B3DADF"
         android:text="Logout"
         android:textColor="#000000"
