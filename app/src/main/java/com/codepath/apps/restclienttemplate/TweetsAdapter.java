@@ -1,6 +1,7 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,10 @@ import com.codepath.apps.restclienttemplate.models.Tweet;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 //QUESTION: what does the extends part do again?
 public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder> {
@@ -61,6 +65,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         ImageView ivProfileImage;
         TextView tvBody;
         TextView tvScreenName;
+        TextView tvTimeStamp;
 
         //itemView represents one row in the RecyclerView
 
@@ -69,6 +74,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
             tvBody = itemView.findViewById(R.id.tvBody);
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
+            tvTimeStamp = itemView.findViewById(R.id.tvTimeStamp);
 
 
         }
@@ -76,7 +82,26 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         public void bind(Tweet tweet) {
             tvBody.setText(tweet.body);
             tvScreenName.setText(tweet.user.screenName);
+            String timeStamp = getRelativeTimeAgo(tweet.createdAt);
+            tvTimeStamp.setText(timeStamp);
             Glide.with(context).load(tweet.user.profileImageUrl).into(ivProfileImage);
+        }
+
+        public String getRelativeTimeAgo(String rawJsonDate) {
+            String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
+            SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
+            sf.setLenient(true);
+
+            String relativeDate = "";
+            try {
+                long dateMillis = sf.parse(rawJsonDate).getTime();
+                relativeDate = DateUtils.getRelativeTimeSpanString(dateMillis,
+                        System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            return relativeDate;
         }
     }
 
