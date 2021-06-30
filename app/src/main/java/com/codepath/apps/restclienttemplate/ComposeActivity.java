@@ -23,7 +23,7 @@ import okhttp3.Headers;
       //alternative to Toast is android snack bar
     EditText etCompose;
     Button btnTweet;
-    public static final int MAX_LENGTH = 280;
+    public static final int MAX_LENGTH = 140;
       public static final String TAG = "ComposeActivity";
 
     TwitterClient client;

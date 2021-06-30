@@ -66,6 +66,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView tvBody;
         TextView tvScreenName;
         TextView tvTimeStamp;
+        ImageView embedImage;
 
         //itemView represents one row in the RecyclerView
 
@@ -75,6 +76,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvBody = itemView.findViewById(R.id.tvBody);
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
             tvTimeStamp = itemView.findViewById(R.id.tvTimeStamp);
+            embedImage = itemView.findViewById(R.id.embedImage);
 
 
         }
@@ -85,6 +87,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             String timeStamp = getRelativeTimeAgo(tweet.createdAt);
             tvTimeStamp.setText(timeStamp);
             Glide.with(context).load(tweet.user.profileImageUrl).into(ivProfileImage);
+            Glide.with(context).load(tweet.embed_image).into(embedImage);
+
         }
 
         public String getRelativeTimeAgo(String rawJsonDate) {
