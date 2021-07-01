@@ -18,6 +18,31 @@
         android:layout_marginTop="0dp"
         tools:srcCompat="@tools:sample/avatars" />
 
+
+    <ImageView
+        android:id="@+id/ivRetweetImage"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_below="@+id/embedImage"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="66dp"
+        android:layout_marginTop="1dp"
+        android:visibility="visible"
+        app:srcCompat="@drawable/ic_vector_retweet"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <ImageView
+        android:id="@+id/ivLikeImage"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_below="@+id/embedImage"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="1dp"
+        android:layout_toEndOf="@+id/ivRetweetImage"
+        android:visibility="visible"
+        app:srcCompat="@drawable/ic_vector_heart"
+        tools:srcCompat="@tools:sample/avatars" />
+
     <ImageView
         android:id="@+id/embedImage"
         android:layout_width="match_parent"
@@ -26,8 +51,7 @@
         android:layout_marginStart="0dp"
         android:layout_marginTop="10dp"
         android:visibility="visible"
-        tools:srcCompat="@tools:sample/avatars"
-        />
+        tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/tvScreenName"
@@ -49,9 +73,9 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="2dp"
         android:layout_toEndOf="@+id/ivProfileImage"
+        android:autoLink="all"
         android:textColor="#061463"
         android:visibility="visible"
-        android:autoLink="all"
         tools:text="This is my tweet!!!" />
 
     <TextView
@@ -59,8 +83,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="3dp"
-        android:layout_marginTop="2dp"
         android:layout_marginLeft="5dp"
+        android:layout_marginTop="2dp"
         android:layout_toEndOf="@+id/tvScreenName"
         android:textColor="#985EFF"
         android:textSize="14sp"

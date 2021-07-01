@@ -5,8 +5,21 @@
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
+         -->
+        <item name="actionBarStyle">@style/MyActionBar</item>
+
         -->
     </style>
+
+    <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="background">@color/twitter</item>
+        <item name="titleTextStyle">@color/twitter</item>
+    </style>
+
+    <style name="MyActionBarTitle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/twitter</item>
+    </style>
+
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
@@ -17,4 +30,5 @@
 
     <style name="counterOverride">override</style>
 
+    <color name="twitter">#00ACEE</color>
 </resources>

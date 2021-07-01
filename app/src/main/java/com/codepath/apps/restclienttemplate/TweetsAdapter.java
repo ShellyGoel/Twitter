@@ -1,7 +1,9 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +15,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.parceler.Parcels;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
+
+import okhttp3.Headers;
 
 //QUESTION: what does the extends part do again?
 public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder> {
@@ -67,6 +74,12 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView tvScreenName;
         TextView tvTimeStamp;
         ImageView embedImage;
+        ImageView ivRetweet;
+        ImageView ivLike;
+        TwitterClient client;
+        Long status_id;
+        RecyclerView rvTweets;
+
 
         //itemView represents one row in the RecyclerView
 
@@ -77,17 +90,60 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
             tvTimeStamp = itemView.findViewById(R.id.tvTimeStamp);
             embedImage = itemView.findViewById(R.id.embedImage);
-
+            ivRetweet = itemView.findViewById(R.id.ivRetweetImage);
+            client = TwitterApplication.getRestClient(context);
+            rvTweets = itemView.findViewById(R.id.rvFollowers);
 
         }
 
-        public void bind(Tweet tweet) {
+        public void bind(final Tweet tweet) {
             tvBody.setText(tweet.body);
             tvScreenName.setText(tweet.user.screenName);
             String timeStamp = getRelativeTimeAgo(tweet.createdAt);
             tvTimeStamp.setText(timeStamp);
             Glide.with(context).load(tweet.user.profileImageUrl).into(ivProfileImage);
             Glide.with(context).load(tweet.embed_image).into(embedImage);
+            status_id = tweet.id;
+
+            tvScreenName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, FollowersActivity.class);
+                    intent.putExtra("user_id", tweet.user.id);
+                    context.startActivity(intent);
+                }
+            });
+
+            ivRetweet.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    client.retweetTweet(status_id.toString(), new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Headers headers, JSON json) {
+                           // Log.i(TAG, "onSuccess to publish tweet");
+                            Log.e("RETWEET", "onSuccess to retweet tweet");
+                            //to parse Json object as a tweet
+                            try {
+                                Tweet tweet = Tweet.fromJson(json.jsonObject);
+                                tweet.retweet = true;
+                                //modify data source with tweet
+                                tweets.add(0,tweet);
+                                //update the recyclerView, is this needed?
+                                notifyItemInserted(0);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                            Log.e("RETWEET", "onFailure to retweet tweet", throwable);
+                        }
+                    });
+
+                }
+            });
 
         }
 

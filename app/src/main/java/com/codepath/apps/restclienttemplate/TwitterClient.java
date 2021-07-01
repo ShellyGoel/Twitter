@@ -50,8 +50,27 @@ public class TwitterClient extends OAuthBaseClient {
 		String apiUrl = getApiUrl("statuses/home_timeline.json");
 		// Can specify query string params directly or through RequestParams.
 		RequestParams params = new RequestParams();
+		params.put("tweet_mode", "extended");
 		params.put("count", 25);
 		params.put("since_id", 1);
+		client.get(apiUrl, params, handler);
+	}
+
+	public void getFollower(long id, JsonHttpResponseHandler handler) {
+		String apiUrl = getApiUrl("followers/list.json");
+		// Can specify query string params directly or through RequestParams.
+		RequestParams params = new RequestParams();
+		params.put("count", 100);
+		params.put("user_id", id);
+		client.get(apiUrl, params, handler);
+	}
+
+	public void getFollowing(long id, JsonHttpResponseHandler handler) {
+		String apiUrl = getApiUrl("friends/list.json");
+		// Can specify query string params directly or through RequestParams.
+		RequestParams params = new RequestParams();
+		params.put("count", 100);
+		params.put("user_id", id);
 		client.get(apiUrl, params, handler);
 	}
 
@@ -65,6 +84,23 @@ public class TwitterClient extends OAuthBaseClient {
 		params.put("status", tweetContent);
 
 		//post request,
+		client.post(apiUrl, params, "", handler);
+	}
+
+
+	//POST statuses/retweet/:id
+	//Retweets a tweet. Returns the original Tweet with Retweet details embedded.
+	public void retweetTweet(String status_id, JsonHttpResponseHandler handler) {
+		String api_path = String.format("statuses/retweet/%s.json", status_id);
+		String apiUrl = getApiUrl(api_path);
+		// Can specify query string params directly or through RequestParams.
+
+		//one parameter we are requesting which is the status
+		RequestParams params = new RequestParams();
+		long status_id_long = Long.parseLong(status_id);
+
+		params.put("status_id", status_id_long);
+
 		client.post(apiUrl, params, "", handler);
 	}
 	/* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint

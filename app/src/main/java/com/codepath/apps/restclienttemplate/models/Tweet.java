@@ -9,13 +9,18 @@ import org.parceler.Parcel;
 
 import java.util.ArrayList;
 import java.util.List;
+import androidx.room.Entity;
 
 @Parcel
+@Entity
 public class Tweet {
     public String body;
     public String createdAt;
     public User user;
     public String embed_image;
+    public boolean like;
+    public boolean retweet;
+    public long id;
 
     // empty constructor needed by the Parceler library
     public Tweet(){
@@ -26,8 +31,15 @@ public class Tweet {
         Tweet tweet = new Tweet();
         //getting info from different json object fields
 
-        tweet.body = jsonObject.getString("text");
+        //tweet.body = jsonObject.getString("text");
+        if (jsonObject.has("full_text")){
+            tweet.body = jsonObject.getString("full_text");
+        }
+        else {
+            tweet.body = jsonObject.getString("text");
+        }
         tweet.createdAt = jsonObject.getString("created_at");
+        tweet.id = jsonObject.getLong("id");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
         //tweet.embed_image =
 
@@ -38,6 +50,10 @@ public class Tweet {
             tweet.embed_image = jsonObject.getJSONObject("entities").getJSONArray("media").getJSONObject(0).getString("media_url");
             Log.i("TWEET","embed_image "+ tweet.embed_image);
         }
+
+        tweet.like = jsonObject.getBoolean("favorited");
+        tweet.retweet = jsonObject.getBoolean("retweeted");
+
 
         return tweet;
     }
