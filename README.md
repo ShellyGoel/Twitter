@@ -29,7 +29,7 @@ The following **optional** features are implemented:
   * [ ] User that wrote the original tweet is **automatically "@" replied in compose**
 * [ ] User can tap a tweet to **open a detailed tweet view**
   * [x] User can **take retweet** actions on a tweet
-  * [partially] User can **take favorite (and unfavorite) on a tweet
+  * [partially] User can **take favorite (and unfavorite)** on a tweet
 * [ ] User can view more tweets as they scroll with infinite pagination
 * [ ] Compose tweet functionality is built using modal overlay
 * [x] User can **click a link within a tweet body** on tweet details view. The click will launch the web browser with relevant page opened.
