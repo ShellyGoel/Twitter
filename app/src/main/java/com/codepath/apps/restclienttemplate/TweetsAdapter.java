@@ -93,6 +93,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             ivRetweet = itemView.findViewById(R.id.ivRetweetImage);
             client = TwitterApplication.getRestClient(context);
             rvTweets = itemView.findViewById(R.id.rvFollowers);
+            ivLike = itemView.findViewById(R.id.ivLikeImage);
 
         }
 
@@ -114,6 +115,13 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                 }
             });
 
+            ivLike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Glide.with(context).load(R.drawable.ic_vector_heart2).into(ivLike);
+                }
+            });
+
             ivRetweet.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -130,6 +138,9 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                                 tweets.add(0,tweet);
                                 //update the recyclerView, is this needed?
                                 notifyItemInserted(0);
+
+                                //ivRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
+                                Glide.with(context).load(R.drawable.ic_vector_retweet_stroke).into(ivRetweet);
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
